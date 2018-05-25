@@ -3,19 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ControlPlayer : MonoBehaviour {
+   	public Animator anim;
+   	public float moveSpeed;
+   	public float jumpSpeed = 100f;
+   	public bool Saltando;
+   	public bool Aire;
+	private bool Dir;
+   	public GameObject pelota;
+   	public Transform TiroSpawn; 
+	private SpriteRenderer prender;
+	Rigidbody2D rb;
 
-   public float moveSpeed;
-   public float jumpSpeed = 100f;
-   public bool Saltando;
-   public bool Aire;
-   public GameObject pelota;
-    public Transform TiroSpawn; 
-   Rigidbody2D rb;
 
-    void Start()
+   void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         Saltando = false;
+		prender = gameObject.GetComponent<SpriteRenderer> ();
+
 
 
     }
@@ -29,22 +34,31 @@ public class ControlPlayer : MonoBehaviour {
 
         if (Input.GetKey(KeyCode.A))
         {
-            rb.velocity = new Vector2(-moveSpeed*Time.deltaTime, rb.velocity.y);
+			
+			rb.velocity = new Vector2(-moveSpeed*Time.deltaTime, rb.velocity.y);
+			Dir = true;
+			Caminar ();
         }
 
-        if (Input.GetKey(KeyCode.D))
+		if (Input.GetKey(KeyCode.D))
         {
+			Dir = false;
             rb.velocity = new Vector2(moveSpeed*Time.deltaTime, rb.velocity.y);
+			Caminar ();
         }
 
         if (Input.GetKeyUp(KeyCode.A))
         {
+			anim.SetBool ("isWalking", false);
             rb.velocity = new Vector2(0, rb.velocity.y);
+
         }
 
         if (Input.GetKeyUp(KeyCode.D))
         {
+			anim.SetBool ("isWalking", false);
             rb.velocity = new Vector2(0, rb.velocity.y);
+
         }
 
         if (Input.GetKeyDown(KeyCode.W) && !Saltando && !Aire)
@@ -80,6 +94,20 @@ public class ControlPlayer : MonoBehaviour {
     {
         Instantiate(pelota, TiroSpawn.position, TiroSpawn.rotation);
     }
+
+	void Caminar()
+	{
+		Debug.Log (Dir);
+		anim.SetBool("isWalking", true);
+		if (Dir == true)
+		{
+			prender.flipX = true;
+		}
+		if (Dir == false)
+		{
+			prender.flipX = false;
+		}
+	}
 }
 
 
