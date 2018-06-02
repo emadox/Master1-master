@@ -13,7 +13,7 @@ public class CamaraControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //gameObject.transform.Translate(0, 1*Time.deltaTime, 0);
+        gameObject.transform.Translate(0, 1*Time.deltaTime, 0);
 
         Vector3 ViewPos = cam.WorldToViewportPoint(ptransform.position);
 
